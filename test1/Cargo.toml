@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "contract-1",
+    "contract-2",
+]
