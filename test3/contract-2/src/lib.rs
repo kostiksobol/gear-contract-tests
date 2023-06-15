@@ -1,6 +1,6 @@
 #![no_std]
 
-use gstd::{msg, exec, ActorId};
+use gstd::{msg, exec, ActorId, String};
 
 // for feedback from handle_signal
 static mut USER_ID: ActorId = ActorId::zero();
@@ -16,6 +16,14 @@ unsafe extern "C" fn handle(){
     // msg::reply(b"some reply", 0).expect("Error in reply in contract-2 in handle");
 
     exec::system_reserve_gas(1_000_000_000).expect("Error in system_reserve_gas in handle"); // more than enough
+
+    // // ну а это отдельный пиздец, недостаток газа идет как реплай (или сенд, фиг знает), но не контракту-1, а прямо пользователю, который изначально отправил сообщение контракту-1
+    // let mut a = String::new();
+    // for _i in 0..1_000_000_000{
+    //     a.push('а');
+    // }
+
+    // паник идет как обычный реплай (т.е. реплай контракту-1)
     panic!("Intended panic in contract-2");
 }
 
